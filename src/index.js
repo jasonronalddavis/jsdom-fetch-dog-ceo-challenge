@@ -11,7 +11,6 @@ fetch(imgUrl)
     // appennd to DOM
 let imgsArray = imgs.map((img) => {
 let i = '<img src=${img}>'
-console.log(img)
 console.log(i)
 return i
 })
