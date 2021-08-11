@@ -1,7 +1,12 @@
 const container = document.querySelector("#dog-image-container")
 const imgUrl = "https://dog.ceo/api/breeds/image/random/4"
 const breedUrl = 'https://dog.ceo/api/breeds/list/all'
+const ulContainer = document.querySelector("#dog-breeds")
+const dropDown = document.querySelector("#breed-dropdown")
+let breedsArray;
 
+ulContainer.addEventListener('click', handleClick)
+dropDown.addEventListener('change', handleChange)
 
 function getImages(){
 fetch(imgUrl)
@@ -32,7 +37,7 @@ function renderImg(element){
 }
 
 function renderElement(element){
-   container.innerHTml += element 
+   ulContainer.innerHTML += element 
 }
 
 
@@ -40,10 +45,10 @@ function getBreeds(){
 fetch(breedUrl)
 .then(resp => resp.json())
 .then(breeds => {
-    const breedsArray = Object.keys(breeds.message)
+ breedsArray = Object.keys(breeds.message)
 const breedsList = createLiElement(breedsArray)
 renderList(breedsList)
-debugger;
+//debugger;
 // let imgsArray = createImgElement(imgs)
 // renderImg(imgsArray)
 })
@@ -56,10 +61,33 @@ function createLiElement(breedsArray){
 })
 }
 
+
+
 function renderList(breedsList){
 breedsList.forEach(element => {
 renderElement(element)
 })
+}
+
+
+function handleClick(event){
+    if (event.target.style.color === "red"){
+event.target.style.color = "black"
+}else{
+event.target.style.color = "red"
+    }
+}
+
+
+function handleChange(event){
+const letter = event.target.value
+
+const filteredBreeds = breedsArray.filter(breed  => breed.startsWith(letter))  
+const filteredBreedsList = createLiElement(filteredBreeds)
+ulContainer.innerHTML = ''
+renderList(filteredBreedsList)
+//debugger;
+
 }
 
 //getImages()
